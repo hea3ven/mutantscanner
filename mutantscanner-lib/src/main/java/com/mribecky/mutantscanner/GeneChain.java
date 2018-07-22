@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GeneChain {
+
+    private static final int COMPLETE_LENGTH = 4;
+
     private final char gene;
     private final ArrayList<GenePosition> positions;
 
@@ -27,18 +30,14 @@ public class GeneChain {
     }
 
     public void add(GenePosition pos) {
-        if (size() > 1 && !getNextPosition().equals(pos)) {
+        if (hasDirection() && !getNextPosition().equals(pos)) {
             throw new IllegalArgumentException("Position " + pos + " does not follow the chain");
         }
         positions.add(pos);
     }
 
-    public int size() {
-        return positions.size();
-    }
-
     public GenePosition getNextPosition() {
-        if (size() <= 1) {
+        if (!hasDirection()) {
             throw new NoDefinedDirectionException();
         }
 
@@ -51,4 +50,11 @@ public class GeneChain {
         return positions;
     }
 
+    public boolean isComplete() {
+        return positions.size() >= COMPLETE_LENGTH;
+    }
+
+    public boolean hasDirection() {
+        return positions.size() > 1;
+    }
 }

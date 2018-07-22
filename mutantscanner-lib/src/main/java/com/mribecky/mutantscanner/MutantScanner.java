@@ -20,26 +20,26 @@ public class MutantScanner {
     }
 
     public Optional<GeneChain> findNextMutantChain() {
-        while (column < 6 && row < 6) {
+        while (column < DnaSequence.WIDTH && row < DnaSequence.HEIGHT) {
             GenePosition pos = new GenePosition(column, row);
             char gene = dna.getGene(pos);
             geneChains.addAll(geneChains.stream()
-                    .filter(geneChain -> gene == geneChain.getGene() && geneChain.size() == 1
+                    .filter(geneChain -> gene == geneChain.getGene() && !geneChain.hasDirection()
                             && geneChain.getPositions().get(0).isNextTo(pos))
                     .map(geneChain -> new GeneChain(geneChain, pos))
                     .collect(Collectors.toList()));
             geneChains.stream()
-                    .filter(geneChain -> gene == geneChain.getGene() && geneChain.size() > 1
+                    .filter(geneChain -> gene == geneChain.getGene() && geneChain.hasDirection()
                             && geneChain.getNextPosition().equals(pos))
                     .forEach(geneChain -> geneChain.add(pos));
             geneChains.add(new GeneChain(gene, pos));
             column++;
-            if (column >= 6) {
+            if (column >= DnaSequence.WIDTH) {
                 column = 0;
                 row++;
             }
             Optional<GeneChain> completedChain =
-                    geneChains.stream().filter(geneChain -> geneChain.size() == 4).findFirst();
+                    geneChains.stream().filter(GeneChain::isComplete).findFirst();
             if (completedChain.isPresent()) {
                 geneChains.remove(completedChain.get());
                 return completedChain;
