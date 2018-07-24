@@ -22,5 +22,28 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'io.rest-assured:rest-assured:3.1.0'
 }
 
+sourceSets {
+    integrationTest {
+        compileClasspath += main.output + test.output + configurations.testRuntime
+        runtimeClasspath += main.output + test.output + compileClasspath
+        java.srcDir file('src/integration-test/java')
+        resources.srcDir file('src/integration-test/resources')
+    }
+}
+
+task integrationTest(type: Test) {
+    group = LifecycleBasePlugin.VERIFICATION_GROUP
+    description = 'Runs the integration tests.'
+
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+
+    binResultsDir = file("$buildDir/integration-test-results/binary/integTest")
+
+	systemProperty("baseUrl", System.getProperty("baseUrl"))
+
+    mustRunAfter tasks.build
+}
