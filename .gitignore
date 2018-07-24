@@ -1,6 +1,6 @@
 .*
 *.iml
-/build
+build
 /classes
-/out
+out
 !.gitignore
