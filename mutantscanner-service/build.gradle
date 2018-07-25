@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.3.RELEASE")
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.0.3.RELEASE')
     }
 }
 
@@ -18,8 +18,11 @@ repositories {
 }
 
 dependencies {
-    compile project(":mutantscanner-lib")
-    compile "org.springframework.boot:spring-boot-starter-web"
+    compile project(':mutantscanner-lib')
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    runtime 'org.postgresql:postgresql:9.4-1206-jdbc42'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'io.rest-assured:rest-assured:3.1.0'
