@@ -120,4 +120,16 @@ public class MutantServiceTest {
 
         verify(dnaRepo, times(0)).save(any());
     }
+
+    @Test
+    public void getDnaStats_gettingStats_getsInformationFromRepository() {
+        when(dnaRepo.countByMutant(true)).thenReturn(2L);
+        when(dnaRepo.countByMutant(false)).thenReturn(8L);
+
+        DnaStats result = service.getDnaStats();
+
+        assertThat(result.getCountMutantDna(), is(2L));
+        assertThat(result.getCountHumanDna(), is(8L));
+        assertThat(result.getRatio(), is(0.25D));
+    }
 }

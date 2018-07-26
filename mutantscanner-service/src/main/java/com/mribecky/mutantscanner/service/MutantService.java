@@ -21,4 +21,12 @@ public class MutantService {
         }
         return result;
     }
+
+    public DnaStats getDnaStats() {
+        DnaStats stats = new DnaStats();
+        stats.setCountMutantDna(dnaRepo.countByMutant(true));
+        stats.setCountHumanDna(dnaRepo.countByMutant(false));
+        stats.setRatio(((double) stats.getCountMutantDna()) / stats.getCountHumanDna());
+        return stats;
+    }
 }
