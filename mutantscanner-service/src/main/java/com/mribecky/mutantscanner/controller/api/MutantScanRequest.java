@@ -1,4 +1,4 @@
-package com.mribecky.mutantscanner.service.model;
+package com.mribecky.mutantscanner.controller.api;
 
 public class MutantScanRequest {
 

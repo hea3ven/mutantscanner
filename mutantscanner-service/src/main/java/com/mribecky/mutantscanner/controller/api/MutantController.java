@@ -1,8 +1,8 @@
-package com.mribecky.mutantscanner.service;
+package com.mribecky.mutantscanner.controller.api;
 
 import com.mribecky.mutantscanner.DnaSequence;
-import com.mribecky.mutantscanner.MutantScanner;
-import com.mribecky.mutantscanner.service.model.MutantScanRequest;
+import com.mribecky.mutantscanner.service.MutantService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MutantController {
 
+    @Autowired
+    private MutantService mutantService;
+
     @PostMapping("/mutant")
     public ResponseEntity<String> isMutant(@RequestBody MutantScanRequest scanRequest) {
         try {
-            boolean isMutant =
-                    new MutantScanner(new DnaSequence(scanRequest.getDna())).findNextMutantChain()
-                            .isPresent();
+            boolean isMutant = mutantService.isMutant(new DnaSequence(scanRequest.getDna()));
             if (isMutant) {
                 return ResponseEntity.ok("MATCH");
             } else {

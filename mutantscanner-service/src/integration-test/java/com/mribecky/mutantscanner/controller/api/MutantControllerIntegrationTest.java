@@ -1,4 +1,4 @@
-package com.mribecky.mutantscanner.service;
+package com.mribecky.mutantscanner.controller.api;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;

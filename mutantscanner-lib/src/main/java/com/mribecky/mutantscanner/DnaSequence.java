@@ -14,6 +14,10 @@ public class DnaSequence {
         this.dna = dna;
     }
 
+    public String[] getDna() {
+        return dna;
+    }
+
     private void validate(String[] dna) {
         if (dna.length != HEIGHT) {
             throw new IllegalArgumentException("dna has the wrong number of rows");
